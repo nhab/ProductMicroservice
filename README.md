@@ -13,7 +13,9 @@ public class Product
 }
 ```
 - Add connection string of your databse server (or file) into  **appsettings.json** of the project
+
 (In visual studio>Server explorer> right click on Data Connections and add data connection.
+
  you can copy connectionstring from the properties of this connection)
 ```
 ...
@@ -24,6 +26,7 @@ public class Product
 ...
 ```
 - Create *DBContext" in Model folder
+
  ( DBContext syncronizes entities between database and code)
 ```
 
@@ -35,6 +38,7 @@ public class ProductDbContext : DbContext
 ```
 
 - In Program.cs Add DbContext service to the program:
+
 (ASP.NET Core uses dependency injection to manage dependencies  in form of “services”.)
 ```
 ...
