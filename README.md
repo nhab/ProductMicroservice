@@ -4,7 +4,8 @@
 Using viual studio 2022, Create an ASP.NET Core Web API project
 
 ### 2. Add needd Nuget packages
- intto the project:
+
+(intto the project:)
 
 Microsoft.EntityFrameworkCore
 
@@ -27,7 +28,9 @@ and the selected database.one of these:
 |MySQL|	Pomelo.EntityFrameworkCore.MySql|
 |EF Core in-memory database|	Microsoft.EntityFrameworkCore.InMemory|
 
-### 3- Create Product **model** in Model folder
+### 3- Create Product **model**
+
+( In the Model folder)
 ```
 public class Product
 {
@@ -37,7 +40,9 @@ public class Product
     public decimal Price { get; set; }
 }
 ```
-### 4. Add **connection string** of your databse server (or file) into  **appsettings.json** of the project
+### 4. Add **connection string** 
+
+(of your databse server (or file) into  **appsettings.json** of the project)
 
 (In visual studio>Server explorer> right click on Data Connections and add data connection.
 
@@ -50,7 +55,8 @@ public class Product
   }
 ...
 
-### 5. Create **DBContext*" in Model folder
+### 5. Create **DBContext*"
+( Into Model folder )
 
  ( DBContext syncronizes entities between database and code)
 ```
@@ -61,7 +67,9 @@ public class ProductDbContext : DbContext
 }
 ```
 
-### 6. In Program.cs Add DbContext **service** to the program, to make it available in the project:
+### 6. Add DbContext **service** 
+
+(In Program.cs , Add it to the program, to make it available in the project:)
 
 (ASP.NET Core uses dependency injection to manage dependencies  in form of “services”.)
 ```
@@ -74,7 +82,7 @@ builder.Services.AddDbContext<ProductDbContext>(
 ));
  ..
 ```
-### 7. Now you can pupulate your model(s) into the database table using **migration**
+### 7. Populate the model into the database using  **migration**
   
 (Migration is a tool to kepp the model and the database sync.)
 
@@ -90,5 +98,5 @@ To execute last migration :
 
 ```Update-Database```
 
-
+$$$ 
 
