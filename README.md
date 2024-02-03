@@ -1,7 +1,7 @@
 # ProductMicroservice
 ## EF core - Code first
 - Using viual studio 2022, Create an ASP.NET Core Web API project
-- Create **Product** class in Model folder
+- Create Product **model** in Model folder
 
 ```
 public class Product
@@ -12,7 +12,7 @@ public class Product
     public decimal Price { get; set; }
 }
 ```
-- Add connection string of your databse server (or file) into  **appsettings.json** of the project
+- Add c**onnection string** of your databse server (or file) into  **appsettings.json** of the project
 
 (In visual studio>Server explorer> right click on Data Connections and add data connection.
 
@@ -25,7 +25,7 @@ public class Product
   }
 ...
 ```
-- Create *DBContext" in Model folder
+- Create **DBContext*" in Model folder
 
  ( DBContext syncronizes entities between database and code)
 ```
@@ -37,10 +37,9 @@ public class ProductDbContext : DbContext
 }
 ```
 
-- In Program.cs Add DbContext service to the program:
+- In Program.cs Add DbContext **service** to the program, to make it available in the project:
 
 (ASP.NET Core uses dependency injection to manage dependencies  in form of “services”.)
-```
 ...
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +48,11 @@ builder.Services.AddDbContext<ProductDbContext>(
     builder.Configuration.GetConnectionString("ProductDB")
 ));
 ...
-```
+- Now you can pupulate your model(s) into the database table using **migration**
+  
+(Migration is a tool to kepp the model and the database sync.)
+
+-
+
 
 
