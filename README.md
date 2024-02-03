@@ -98,5 +98,6 @@ To execute last migration :
 
 ```Update-Database```
 
-$$$ 
+Note 1: if the connectionString is not correct, the table would not be created 
 
+Note 2: If you have hard time to update the database, you can create the database table and create another   **Ado.Net entity data model" project and foloow the  wizard  to generate the neede elements to reverse engineer them to your main project and then delete the table and run migration again
