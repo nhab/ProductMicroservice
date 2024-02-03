@@ -1,8 +1,8 @@
 # ProductMicroservice
 ## EF core - Code first
-- Using viual studio 2022, Create an ASP.NET Core Web API project
+1. Using viual studio 2022, Create an ASP.NET Core Web API project
 
-- Add needd Nuget packages to your projecy:
+2. Add needd Nuget packages to your projecy:
 
 Microsoft.EntityFrameworkCore
 
@@ -35,7 +35,7 @@ public class Product
     public decimal Price { get; set; }
 }
 ```
-- Add **connection string** of your databse server (or file) into  **appsettings.json** of the project
+3. Add **connection string** of your databse server (or file) into  **appsettings.json** of the project
 
 (In visual studio>Server explorer> right click on Data Connections and add data connection.
 
@@ -48,7 +48,7 @@ public class Product
   }
 ...
 
-- Create **DBContext*" in Model folder
+4. Create **DBContext*" in Model folder
 
  ( DBContext syncronizes entities between database and code)
 ```
@@ -59,7 +59,7 @@ public class ProductDbContext : DbContext
 }
 ```
 
-- In Program.cs Add DbContext **service** to the program, to make it available in the project:
+5. In Program.cs Add DbContext **service** to the program, to make it available in the project:
 
 (ASP.NET Core uses dependency injection to manage dependencies  in form of “services”.)
 ```
@@ -72,11 +72,21 @@ builder.Services.AddDbContext<ProductDbContext>(
 ));
  ..
 ```
-- Now you can pupulate your model(s) into the database table using **migration**
+6. Now you can pupulate your model(s) into the database table using **migration**
   
 (Migration is a tool to kepp the model and the database sync.)
 
--
+In visualstudio, open **Package Manager console** and use following commands.
+
+If migration is not enable:
+
+``` Enable-Migrations```
+
+```Add-Migration [MigrationName]```
+
+To execute last migration :
+
+```Update-Database```
 
 
 
