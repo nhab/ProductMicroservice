@@ -13,16 +13,29 @@ public class Product
 }
 ```
 - Add connection string of your databse server (or file) into  **appsettings.json** of the project
-- Create *DBContext" in Model folder
+(In visual studio>Server explorer> right click on Data Connections and add data connection.
+ you can copy connectionstring from the properties of this connection)
 ```
-// DBContext syncronizes entities between database and code
+...
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "ProductDB":"Data Source=(localdb)\\MSSQLLocalDB;AttachDbFilename=D:\\dbs\\products.mdf;Integrated Security=true;"
+  }
+...
+```
+- Create *DBContext" in Model folder
+ ( DBContext syncronizes entities between database and code)
+```
+
 public class ProductDbContext : DbContext
 {
     public DbSet<Product> Products { get; set; }
     public ProductDbContext(DbContextOptions<ProductDbContext> options) : base(options) { }
 }
 ```
-- In Program.cs Add DbContext service to the programe:
+
+- In Program.cs Add DbContext service to the program:
+(ASP.NET Core uses dependency injection to manage dependencies  in form of “services”.)
 ```
 ...
 var builder = WebApplication.CreateBuilder(args);
@@ -33,4 +46,5 @@ builder.Services.AddDbContext<ProductDbContext>(
 ));
 ...
 ```
+
 
