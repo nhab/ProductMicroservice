@@ -3,21 +3,28 @@
 - Using viual studio 2022, Create an ASP.NET Core Web API project
 
 - Add needd Nuget packages to your projecy:
-```
+
 Microsoft.EntityFrameworkCore
+
 Microsoft.EntityFrameworkCore.Tools
+
 Microsoft.EntityFrameworkCore.Design
+
 Microsoft.EntityFrameworkCore.Relational
+
 Microsoft.EntityFrameworkCore.Abstractions 
 
 and the selected database.one of these:
 
-SQL Server and SQL Azure	Microsoft.EntityFrameworkCore.SqlServer
-SQLite	Microsoft.EntityFrameworkCore.Sqlite
-Azure Cosmos DB	Microsoft.EntityFrameworkCore.Cosmos
-PostgreSQL	Npgsql.EntityFrameworkCore.PostgreSQL*
-MySQL	Pomelo.EntityFrameworkCore.MySql*
-EF Core in-memory database**	Microsoft.EntityFrameworkCore.InMemory
+| Database  | Nuget package |
+| ------------- | ------------- |
+|SQL Server and SQL Azure |	Microsoft.EntityFrameworkCore.SqlServer |
+|SQLite |	Microsoft.EntityFrameworkCore.Sqlite|
+|Azure Cosmos DB|	Microsoft.EntityFrameworkCore.Cosmos|
+|PostgreSQL|	Npgsql.EntityFrameworkCore.PostgreSQL|
+|MySQL|	Pomelo.EntityFrameworkCore.MySql|
+|EF Core in-memory database|	Microsoft.EntityFrameworkCore.InMemory|
+
 - Create Product **model** in Model folder
 ```
 public class Product
