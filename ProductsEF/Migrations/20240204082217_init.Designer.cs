@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ProductMicroservice.Migrations
+namespace ProductsEF.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20240202220140_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240204082217_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
