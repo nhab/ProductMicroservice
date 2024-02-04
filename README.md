@@ -444,4 +444,7 @@ function _displayItems(data) {
   todos = data;
 }
 ```
+4. Open Properties\launchSettings.json.
+Remove the launchUrl property to force the app to open at index.html—the project's default file.
+
 [referece](https://learn.microsoft.com/en-us/aspnet/core/tutorials/web-api-javascript?view=aspnetcore-8.0)
