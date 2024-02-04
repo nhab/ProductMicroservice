@@ -168,39 +168,46 @@ References :
 ```
 6- Edit a product (PUT)
 ```
-  {
-      return dbContext.Products.Any(e => e.id == id);
-  }
-  // PUT api/<ProductsController>/5
-  [HttpPut("{id}")]
-  public async Task<IActionResult> Put([FromBody] long id, Product product)
-  {
-      if (id != product.id)
-      {
-          return  BadRequest();
-      }
+  bool productExists(long id)
+{
+    return dbContext.Products.Any(e => e.id == id);
+}
+public class ProductEditInput {
+    public long id { get; set; }
+    public Product product { get; set; }
+}
 
-      dbContext.Entry(product).State = EntityState.Modified;
 
-      try
-      {
-          await dbContext.SaveChangesAsync();
-      }
-      
-      catch (DbUpdateConcurrencyException)
-      {
-          if (!productExists(id))
-          {
-              return NotFound();
-          }
-          else
-          {
-              throw;
-          }
-      }
+// PUT api/<ProductsController>/5
+[HttpPut("{id}")]
+public async Task<IActionResult> Put([FromBody]  ProductEditInput productEditInput)
+{
+    if (productEditInput.id != productEditInput.product.id)
+    {
+        return  BadRequest();
+    }
 
-      return NoContent();
-  }
+    dbContext.Entry(productEditInput.product).State = EntityState.Modified;
+
+    try
+    {
+        await dbContext.SaveChangesAsync();
+    }
+    
+    catch (DbUpdateConcurrencyException)
+    {
+        if (!productExists(productEditInput.id))
+        {
+            return NotFound();
+        }
+        else
+        {
+            throw;
+        }
+    }
+   return NoContent();
+}
+        
 ```
 7. Delete Product
 ```
@@ -220,4 +227,4 @@ References :
   }
 ```
 Up until now, we can run the project and Try each operation using swagger UI, but a better UI can be applid Using javascript
-## Call an ASP.NET Core web API with JavaScript
+## Calling an ASP.NET Core web API with JavaScript Optional
