@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductMicroservice.Model;
+using static ProductsEF.Controllers.ProductsController;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +19,9 @@ namespace ProductsEF.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Product> Get()
         {
-            var products=dbContext.Products.Select(p => (p.Name+p.Description+p.Price)).ToList();
-
-            return products ;
+            return dbContext.Products;
         }
 
         // GET api/<ProductsController>/5
@@ -52,15 +51,16 @@ namespace ProductsEF.Controllers
         {
             return dbContext.Products.Any(e => e.id == id);
         }
-        // PUT api/<ProductsController>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] long id, Product product)
-        {
-            if (id != product.id)
-            {
-                return  BadRequest();
-            }
+        public class ProductEditInput {
+            public long id { get; set; }
+            public Product product { get; set; }
+        }
 
+
+        // PUT api/<ProductsController>
+        [HttpPut()]
+        public async Task<IActionResult> Put([FromBody]  Product product)
+        {
             dbContext.Entry(product).State = EntityState.Modified;
 
             try
@@ -70,7 +70,7 @@ namespace ProductsEF.Controllers
             
             catch (DbUpdateConcurrencyException)
             {
-                if (!productExists(id))
+                if (!productExists(product.id))
                 {
                     return NotFound();
                 }
@@ -87,7 +87,7 @@ namespace ProductsEF.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
-            var product = await dbContext.Products.FindAsync(id);
+            var product = dbContext.Products.Where(c => c.id == id).First();
             if (product == null)
             {
                 return NotFound();
