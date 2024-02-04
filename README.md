@@ -1,5 +1,5 @@
-# Products EntityFramework Tutorial
-## EF core - Code first
+# .Net Core Tutorial by example
+## EntityFramework core - Code first
 ### 1. Creating the project 
 Using viual studio 2022, Create an ASP.NET Core Web API project
 
@@ -102,4 +102,120 @@ To execute last migration :
 Note 1: if the connectionString is not correct, the table would not be created 
 
 Note 2: If you have hard time to update the database, you can create the database table and create another   **Ado.Net entity data model" project and foloow the  wizard  to generate the neede elements to reverse engineer them to your main project and then delete the table and run migration again
-Note 3 : [Reference](https://github.com/rstropek/htl-csharp/blob/master/entity-framework/ef-aspnet-cheat-sheet.md)
+
+References : 
+
+[EF summary](https://github.com/rstropek/htl-csharp/blob/master/entity-framework/ef-aspnet-cheat-sheet.md)
+
+[microsoft](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio)
+
+## USing EF CRRUD Operations within Web API
+### Dependency injection
+
+1-Add a new API controller into controllers folder of the project 
+
+2- Add the ProductDbContext into its constructor to be usable within the controller:
+```
+ [Route("api/[controller]")]
+ [ApiController]
+ public class ProductsController : ControllerBase
+ {
+     ProductDbContext dbContext;
+
+    public ProductsController(ProductDbContext dbContext)
+     {
+         this.dbContext = dbContext;
+     }
+..
+```
+### CRUD
+3.Get all Product:
+```
+ [HttpGet]
+ public IEnumerable<string> Get()
+ {
+     var products=dbContext.Products.Select(p => (p.Name+p.Description+p.Price)).ToList();
+
+     return products ;
+ }
+```
+4.Get by ID
+```
+ // GET api/<ProductsController>/5
+ [HttpGet("{id}")]
+ public async Task<ActionResult<Product>> Get(int id)
+ {
+     var product = await dbContext.Products.FindAsync(id);
+
+     if (product == null)
+     {
+         return NotFound();
+     }
+
+     return product;
+ }
+```
+5.Add a product (POST) :
+```
+ [HttpPost]
+ public async Task<ActionResult<Product>> Post([FromBody] Product product)
+ {
+     dbContext.Products.Add(product);
+     await dbContext.SaveChangesAsync();
+
+     return CreatedAtAction(nameof(Get), new { id = product.id }, product);
+ }
+```
+6- Edit a product (PUT)
+```
+  {
+      return dbContext.Products.Any(e => e.id == id);
+  }
+  // PUT api/<ProductsController>/5
+  [HttpPut("{id}")]
+  public async Task<IActionResult> Put([FromBody] long id, Product product)
+  {
+      if (id != product.id)
+      {
+          return  BadRequest();
+      }
+
+      dbContext.Entry(product).State = EntityState.Modified;
+
+      try
+      {
+          await dbContext.SaveChangesAsync();
+      }
+      
+      catch (DbUpdateConcurrencyException)
+      {
+          if (!productExists(id))
+          {
+              return NotFound();
+          }
+          else
+          {
+              throw;
+          }
+      }
+
+      return NoContent();
+  }
+```
+7. Delete Product
+```
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> DeleteProduct(long id)
+  {
+      var product = await dbContext.Products.FindAsync(id);
+      if (product == null)
+      {
+          return NotFound();
+      }
+
+      dbContext.Products.Remove(product);
+      await dbContext.SaveChangesAsync();
+
+      return NoContent();
+  }
+```
