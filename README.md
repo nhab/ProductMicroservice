@@ -82,7 +82,7 @@ builder.Services.AddDbContext<ProductDbContext>(
 ));
  ..
 ```
-### 7. Populate the model into the database using  **migration**
+### 7. Populate the model into the database using  [**migration**](https://www.learnentityframeworkcore.com/migrations#:~:text=To%20use%20migrations%20in%20EF,made%20to%20your%20database%20schema.)
   
 (Migration is a tool to kepp the model and the database sync.)
 
