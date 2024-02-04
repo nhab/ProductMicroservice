@@ -1,4 +1,4 @@
-# Products >Net Core Tutorial
+# Net Core Tutorial by example
 ## EntityFramework core - Code first
 ### 1. Creating the project 
 Using viual studio 2022, Create an ASP.NET Core Web API project
@@ -102,5 +102,9 @@ To execute last migration :
 Note 1: if the connectionString is not correct, the table would not be created 
 
 Note 2: If you have hard time to update the database, you can create the database table and create another   **Ado.Net entity data model" project and foloow the  wizard  to generate the neede elements to reverse engineer them to your main project and then delete the table and run migration again
-References : [EF summary](https://github.com/rstropek/htl-csharp/blob/master/entity-framework/ef-aspnet-cheat-sheet.md)
+
+References : 
+
+[EF summary](https://github.com/rstropek/htl-csharp/blob/master/entity-framework/ef-aspnet-cheat-sheet.md)
+
 [c-sharpcorner](https://www.c-sharpcorner.com/article/building-asp-net-web-api-in-net-core-with-entity-framework/)
