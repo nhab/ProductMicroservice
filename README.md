@@ -1,4 +1,4 @@
-# ProductMicroservice
+# Producs EntityFramework
 ## EF core - Code first
 ### 1. Creating the project 
 Using viual studio 2022, Create an ASP.NET Core Web API project
