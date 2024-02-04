@@ -107,4 +107,97 @@ References :
 
 [EF summary](https://github.com/rstropek/htl-csharp/blob/master/entity-framework/ef-aspnet-cheat-sheet.md)
 
-[c-sharpcorner](https://www.c-sharpcorner.com/article/building-asp-net-web-api-in-net-core-with-entity-framework/)
+[microsoft](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio)
+
+## USing EF Dbcontext for CRRUD Operation within Web API
+### Dependency injection
+
+1-Add a new API controller into controllers folder of the project 
+
+2- Add the ProductDbContext into its constructor to be usable within the controller:
+```
+ [Route("api/[controller]")]
+ [ApiController]
+ public class ProductsController : ControllerBase
+ {
+     ProductDbContext dbContext;
+
+    public ProductsController(ProductDbContext dbContext)
+     {
+         this.dbContext = dbContext;
+     }
+..
+```
+3.Get all Product:
+```
+ [HttpGet]
+ public IEnumerable<string> Get()
+ {
+     var products=dbContext.Products.Select(p => (p.Name+p.Description+p.Price)).ToList();
+
+     return products ;
+ }
+```
+4.Get by ID
+```
+ // GET api/<ProductsController>/5
+ [HttpGet("{id}")]
+ public async Task<ActionResult<Product>> Get(int id)
+ {
+     var product = await dbContext.Products.FindAsync(id);
+
+     if (product == null)
+     {
+         return NotFound();
+     }
+
+     return product;
+ }
+```
+5.Add a product (POST) :
+```
+ [HttpPost]
+ public async Task<ActionResult<Product>> Post([FromBody] Product product)
+ {
+     dbContext.Products.Add(product);
+     await dbContext.SaveChangesAsync();
+
+     return CreatedAtAction(nameof(Get), new { id = product.id }, product);
+ }
+```
+6- Edit a product (PUT)
+```
+  {
+      return dbContext.Products.Any(e => e.id == id);
+  }
+  // PUT api/<ProductsController>/5
+  [HttpPut("{id}")]
+  public async Task<IActionResult> Put([FromBody] long id, Product product)
+  {
+      if (id != product.id)
+      {
+          return  BadRequest();
+      }
+
+      dbContext.Entry(product).State = EntityState.Modified;
+
+      try
+      {
+          await dbContext.SaveChangesAsync();
+      }
+      
+      catch (DbUpdateConcurrencyException)
+      {
+          if (!productExists(id))
+          {
+              return NotFound();
+          }
+          else
+          {
+              throw;
+          }
+      }
+
+      return NoContent();
+  }
+```
