@@ -219,3 +219,5 @@ References :
       return NoContent();
   }
 ```
+Up until now, we can run the project and Try each operation using swagger UI, but a better UI can be applid Using javascript
+## Call an ASP.NET Core web API with JavaScript
