@@ -1,4 +1,4 @@
-# Net Core Tutorial by example
+# .Net Core Tutorial by example
 ## EntityFramework core - Code first
 ### 1. Creating the project 
 Using viual studio 2022, Create an ASP.NET Core Web API project
@@ -128,6 +128,7 @@ References :
      }
 ..
 ```
+### CRUD
 3.Get all Product:
 ```
  [HttpGet]
@@ -197,6 +198,23 @@ References :
               throw;
           }
       }
+
+      return NoContent();
+  }
+```
+7. Delete Product
+```
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> DeleteProduct(long id)
+  {
+      var product = await dbContext.Products.FindAsync(id);
+      if (product == null)
+      {
+          return NotFound();
+      }
+
+      dbContext.Products.Remove(product);
+      await dbContext.SaveChangesAsync();
 
       return NoContent();
   }
