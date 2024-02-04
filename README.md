@@ -109,7 +109,7 @@ References :
 
 [microsoft](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio)
 
-## USing EF Dbcontext for CRRUD Operation within Web API
+## USing EF CRRUD Operations within Web API
 ### Dependency injection
 
 1-Add a new API controller into controllers folder of the project 
