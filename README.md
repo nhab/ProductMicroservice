@@ -109,6 +109,8 @@ References :
 
 [microsoft](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio)
 
+[WebAPI with MongoDB](https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-8.0&tabs=visual-studio)
+
 ## USing EF CRRUD Operations within Web API
 ### Dependency injection
 
@@ -132,11 +134,9 @@ References :
 3.Get all Product:
 ```
  [HttpGet]
- public IEnumerable<string> Get()
+ public IEnumerable<Product> Get()
  {
-     var products=dbContext.Products.Select(p => (p.Name+p.Description+p.Price)).ToList();
-
-     return products ;
+   return dbContext.Products;
  }
 ```
 4.Get by ID
@@ -168,54 +168,62 @@ References :
 ```
 6- Edit a product (PUT)
 ```
-  {
-      return dbContext.Products.Any(e => e.id == id);
-  }
-  // PUT api/<ProductsController>/5
-  [HttpPut("{id}")]
-  public async Task<IActionResult> Put([FromBody] long id, Product product)
-  {
-      if (id != product.id)
-      {
-          return  BadRequest();
-      }
+  bool productExists(long id)
+{
+    return dbContext.Products.Any(e => e.id == id);
+}
+public class ProductEditInput {
+    public long id { get; set; }
+    public Product product { get; set; }
+}
 
-      dbContext.Entry(product).State = EntityState.Modified;
 
-      try
-      {
-          await dbContext.SaveChangesAsync();
-      }
-      
-      catch (DbUpdateConcurrencyException)
-      {
-          if (!productExists(id))
-          {
-              return NotFound();
-          }
-          else
-          {
-              throw;
-          }
-      }
+// PUT api/<ProductsController>/5
+[HttpPut()]
+public async Task<IActionResult> Put([FromBody]  Product product)
+{
+   dbContext.Entry(product).State = EntityState.Modified;
 
-      return NoContent();
-  }
+ try
+ {
+     await dbContext.SaveChangesAsync();
+ }
+ 
+ catch (DbUpdateConcurrencyException)
+ {
+     if (!productExists(product.id))
+     {
+         return NotFound();
+     }
+     else
+     {
+         throw;
+     }
+ }
+
+   return NoContent();
+}
+        
 ```
 7. Delete Product
 ```
-  [HttpDelete("{id}")]
-  public async Task<IActionResult> DeleteProduct(long id)
-  {
-      var product = await dbContext.Products.FindAsync(id);
-      if (product == null)
-      {
-          return NotFound();
-      }
+ [HttpDelete("{id}")]
+ public async Task<IActionResult> DeleteProduct(long id)
+ {
+    var product = dbContext.Products.Where(c => c.id == id).First();
+    if (product == null)
+    {
+        return NotFound();
+    }
 
-      dbContext.Products.Remove(product);
-      await dbContext.SaveChangesAsync();
+    dbContext.Products.Remove(product);
+    await dbContext.SaveChangesAsync();
 
-      return NoContent();
-  }
+    return NoContent();
+ }
 ```
+Up until now, we can run the project and Try each operation using swagger UI, but a better UI can be applid Using javascript
+
+## Calling an ASP.NET Core web API with JavaScript ( Optional )
+1. Configure the app to serve static files and enable default file mapping
+   
